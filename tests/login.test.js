@@ -1,8 +1,7 @@
 import http from 'k6/http'
 import { sleep, check } from 'k6'
-import { pegarBaseUrl } from '../utils/variaveis'
 const postLogin = JSON.parse(open('../fixtures/postLogin.json'))
-import {pegarBaseUrl} from '../utils/variaveis.js'
+import { pegarBaseUrl } from '../utils/variaveis.js'
 
 export const options = {
   
@@ -45,4 +44,3 @@ export default function () {
     
 
 }
-
