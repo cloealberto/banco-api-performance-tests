@@ -1,6 +1,8 @@
 import http from 'k6/http'
 import { sleep, check } from 'k6'
-const postLogin = JSON.parse(open('../fixtures/postLogin.json'));
+import { pegarBaseUrl } from '../utils/variaveis'
+const postLogin = JSON.parse(open('../fixtures/postLogin.json'))
+import {pegarBaseUrl} from '../utils/variaveis.js'
 
 export const options = {
   
@@ -21,7 +23,7 @@ export const options = {
 
 
 export default function () {
-    const url = 'http://localhost:3000/login'
+    const url = pegarBaseUrl() + '/login'
 
     const payload = JSON.stringify(postLogin);
 
@@ -34,7 +36,7 @@ export default function () {
     const res = http.post(url, payload, params)
     
     check(res, {
-        'status is 200': (r) => r.status === 200,
+        'status is 201': (r) => r.status === 201,
         'response body contains token': (r) => r.body.includes('token'),
         "validate if token is string": (r) => typeof(r.json().token) === 'string',
     });
