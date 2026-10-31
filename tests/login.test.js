@@ -1,15 +1,18 @@
-import http from 'k6/http';
-
-import { sleep, check } from 'k6';
+import http from 'k6/http'
+import { sleep, check } from 'k6'
+const postLogin = JSON.parse(open('../fixtures/postLogin.json'));
 
 export const options = {
   
-  stages: [
+  /*
+    stages: [
     { duration: '5s', target: 10 },
     { duration: '20s', target: 10 },
     { duration: '5s', target: 0 }    
   ],
+  */
 
+  iterations: 1,
   thresholds: {
     http_req_duration: ['p(90)<3000', 'max<5000'],
     http_req_failed: ['rate<0.01']
@@ -18,11 +21,9 @@ export const options = {
 
 
 export default function () {
-    const url = 'http://localhost:3000/login';
-    const payload = JSON.stringify({
-        username: 'cloe.alberto',
-        senha: '101010',
-    });
+    const url = 'http://localhost:3000/login'
+
+    const payload = JSON.stringify(postLogin);
 
     const params = {
         headers: {
@@ -30,7 +31,7 @@ export default function () {
         },
     };
 
-    const res = http.post(url, payload, params);
+    const res = http.post(url, payload, params)
     
     check(res, {
         'status is 200': (r) => r.status === 200,
